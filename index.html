@@ -3,56 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Portfolio</title>
+    <title>Portfolio Page</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
+    <!-- Header Section -->
     <header>
-      <h1>My Interactive Portfolio</h1>
-      <p>Welcome! Explore my projects and recent updates below.</p>
-      <div id="location-info">Fetching your location...</div>
+      <h1>Welcome to My Portfolio</h1>
+      <p>Explore my projects and get in touch with me!</p>
     </header>
 
     <!-- Project Gallery Section -->
-    <section class="project-gallery">
+    <section id="projects">
       <h2>My Projects</h2>
+
+      <!-- Sample Project 1 -->
       <div class="project">
-        <h3>Project 1</h3>
-        <button class="toggle-btn">Show Details</button>
-        <div class="project-details">
-          <p>This project focuses on ...</p>
+        <h3>Project 1: Portfolio Website</h3>
+        <button class="toggle-details">Show Details</button>
+        <div class="project-details" style="display: none">
+          <p>
+            This project showcases my portfolio, including all the work I have
+            completed so far.
+          </p>
         </div>
       </div>
+
+      <!-- Sample Project 2 -->
       <div class="project">
-        <h3>Project 2</h3>
-        <button class="toggle-btn">Show Details</button>
-        <div class="project-details">
-          <p>This project explores ...</p>
+        <h3>Project 2: JavaScript Game</h3>
+        <button class="toggle-details">Show Details</button>
+        <div class="project-details" style="display: none">
+          <p>
+            This is a browser-based game created using JavaScript, HTML, and
+            CSS.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sample Project 3 -->
+      <div class="project">
+        <h3>Project 3: API Integration App</h3>
+        <button class="toggle-details">Show Details</button>
+        <div class="project-details" style="display: none">
+          <p>
+            An application that uses an external API to fetch and display
+            dynamic data.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Contact Form Section -->
-    <section class="contact">
+    <!-- Contact Section -->
+    <section id="contact">
       <h2>Contact Me</h2>
+
+      <!-- Location-based greeting -->
+      <p id="location-greeting">
+        Hello! We look forward to connecting with you.
+      </p>
+
+      <!-- Contact Form -->
       <form id="contact-form">
         <label for="name">Name:</label>
         <input type="text" id="name" required />
+        <small class="error-message"></small>
+
         <label for="email">Email:</label>
         <input type="email" id="email" required />
+        <small class="error-message"></small>
+
         <label for="message">Message:</label>
         <textarea id="message" required></textarea>
-        <button type="submit">Submit</button>
-        <p id="form-error" class="error-message"></p>
+        <small class="error-message"></small>
+
+        <button type="submit">Send Message</button>
       </form>
     </section>
-
-    <!-- Optional Canvas Animation Section -->
-    <section>
-      <h2>Animated Canvas</h2>
-      <canvas id="myCanvas"></canvas>
-    </section>
-
-    <script src="script.js" defer></script>
   </body>
 </html>

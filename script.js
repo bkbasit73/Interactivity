@@ -1,69 +1,86 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Geolocation API for displaying user location
-    const locationInfo = document.getElementById("location-info");
-
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                locationInfo.innerHTML = `Your location: Latitude ${latitude.toFixed(2)}, Longitude ${longitude.toFixed(2)}`;
-            },
-            () => {
-                locationInfo.innerHTML = "Location access denied.";
-            }
-        );
-    } else {
-        locationInfo.innerHTML = "Geolocation is not supported by your browser.";
-    }
-
-    // Project Gallery Toggle
-    const toggleButtons = document.querySelectorAll(".toggle-btn");
-
+document.addEventListener('DOMContentLoaded', () => {
+    // Toggle project details visibility
+    const toggleButtons = document.querySelectorAll('.toggle-details');
     toggleButtons.forEach(button => {
-        button.addEventListener("click", function() {
-            const details = button.nextElementSibling;
-            details.style.display = details.style.display === "none" || details.style.display === "" ? "block" : "none";
-            button.textContent = details.style.display === "block" ? "Hide Details" : "Show Details";
+      button.addEventListener('click', () => {
+        const details = button.nextElementSibling;
+        const isHidden = details.style.display === 'none' || details.style.display === '';
+        details.style.display = isHidden ? 'block' : 'none';
+        button.textContent = isHidden ? 'Hide Details' : 'Show Details';
+      });
+    });
+  
+    // Form validation
+    const form = document.getElementById('contact-form');
+    const nameField = document.getElementById('name');
+    const emailField = document.getElementById('email');
+    const messageField = document.getElementById('message');
+  
+    const validateField = (field, message) => {
+      const errorMessage = field.nextElementSibling;
+      if (field.value.trim() === '') {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        return false;
+      }
+      errorMessage.style.display = 'none';
+      return true;
+    };
+  
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+  
+      const isNameValid = validateField(nameField, 'Please enter your name.');
+      const isEmailValid = validateField(emailField, 'Please enter a valid email.');
+      const isMessageValid = validateField(messageField, 'Please enter your message.');
+  
+      if (isNameValid && isEmailValid && isMessageValid) {
+        alert('Message sent successfully!');
+        form.reset();
+      }
+    });
+  
+    // Custom Greeting Based on User Location
+    const displayLocationGreeting = (city, country) => {
+      const locationGreeting = document.getElementById('location-greeting');
+      locationGreeting.textContent = `Hello from ${city}, ${country}! We look forward to connecting with you.`;
+    };
+  
+    const fetchLocationDetails = (latitude, longitude) => {
+      const apiKey = 'YOUR_API_KEY_HERE';  // Replace with your API key
+      const url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&lat=${latitude}&long=${longitude}`;
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const city = data.city;
+          const country = data.country_name;
+          displayLocationGreeting(city, country);
+        })
+        .catch(error => {
+          console.error('Error fetching location details:', error);
         });
-    });
-
-    // Contact Form Validation
-    const contactForm = document.getElementById("contact-form");
-    const formError = document.getElementById("form-error");
-
-    contactForm.addEventListener("submit", function(event) {
-        formError.style.display = "none";
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const message = document.getElementById("message").value.trim();
-
-        if (!name || !email || !message) {
-            event.preventDefault();
-            formError.textContent = "All fields are required!";
-            formError.style.display = "block";
-        }
-    });
-
-    // Canvas Animation
-    const canvas = document.getElementById("myCanvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = canvas.clientWidth;
-    canvas.height = 200;
-
-    let xPos = 0;
-
-    function drawAnimation() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#0984e3";
-        ctx.beginPath();
-        ctx.arc(xPos, 100, 30, 0, Math.PI * 2);
-        ctx.fill();
-
-        xPos += 2;
-        if (xPos > canvas.width) xPos = 0;
-
-        requestAnimationFrame(drawAnimation);
-    }
-    drawAnimation();
-});
+    };
+  
+    const useGeolocation = () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            fetchLocationDetails(latitude, longitude);
+          },
+          () => {
+            const locationGreeting = document.getElementById('location-greeting');
+            locationGreeting.textContent = 'Hello! We look forward to connecting with you.';
+          }
+        );
+      } else {
+        const locationGreeting = document.getElementById('location-greeting');
+        locationGreeting.textContent = 'Hello! We look forward to connecting with you.';
+      }
+    };
+  
+    // Call the Geolocation function on load
+    useGeolocation();
+  });
+  
