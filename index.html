@@ -3,83 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Page</title>
+    <title>Portfolio</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
   </head>
   <body>
-    <!-- Header Section -->
     <header>
-      <h1>Welcome to My Portfolio</h1>
-      <p>Explore my projects and get in touch with me!</p>
+      <h1>My Portfolio</h1>
+      <p>
+        Welcome to my personal portfolio page showcasing my projects and skills.
+      </p>
     </header>
 
     <!-- Project Gallery Section -->
     <section id="projects">
-      <h2>My Projects</h2>
-
-      <!-- Sample Project 1 -->
+      <h2>Project Gallery</h2>
       <div class="project">
-        <h3>Project 1: Portfolio Website</h3>
-        <button class="toggle-details">Show Details</button>
-        <div class="project-details" style="display: none">
-          <p>
-            This project showcases my portfolio, including all the work I have
-            completed so far.
-          </p>
-        </div>
+        <h3>Project 1</h3>
+        <button onclick="toggleDetails(this)">Show Details</button>
+        <p class="project-details" style="display: none">
+          Details about Project 1.
+        </p>
       </div>
-
-      <!-- Sample Project 2 -->
       <div class="project">
-        <h3>Project 2: JavaScript Game</h3>
-        <button class="toggle-details">Show Details</button>
-        <div class="project-details" style="display: none">
-          <p>
-            This is a browser-based game created using JavaScript, HTML, and
-            CSS.
-          </p>
-        </div>
-      </div>
-
-      <!-- Sample Project 3 -->
-      <div class="project">
-        <h3>Project 3: API Integration App</h3>
-        <button class="toggle-details">Show Details</button>
-        <div class="project-details" style="display: none">
-          <p>
-            An application that uses an external API to fetch and display
-            dynamic data.
-          </p>
-        </div>
+        <h3>Project 2</h3>
+        <button onclick="toggleDetails(this)">Show Details</button>
+        <p class="project-details" style="display: none">
+          Details about Project 2.
+        </p>
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact Section with Geolocation -->
     <section id="contact">
       <h2>Contact Me</h2>
-
-      <!-- Location-based greeting -->
-      <p id="location-greeting">
-        Hello! We look forward to connecting with you.
-      </p>
-
-      <!-- Contact Form -->
-      <form id="contact-form">
+      <form id="contactForm" onsubmit="validateForm(event)">
         <label for="name">Name:</label>
-        <input type="text" id="name" required />
-        <small class="error-message"></small>
-
+        <input type="text" id="name" name="name" required />
         <label for="email">Email:</label>
-        <input type="email" id="email" required />
-        <small class="error-message"></small>
-
+        <input type="email" id="email" name="email" required />
         <label for="message">Message:</label>
-        <textarea id="message" required></textarea>
-        <small class="error-message"></small>
-
+        <textarea id="message" name="message" required></textarea>
         <button type="submit">Send Message</button>
       </form>
+      <p id="location-message">Attempting to retrieve your location...</p>
     </section>
+
+    <script>
+      // Toggle Project Details
+      function toggleDetails(button) {
+        const details = button.nextElementSibling;
+        if (details.style.display === "none") {
+          details.style.display = "block";
+          button.textContent = "Hide Details";
+        } else {
+          details.style.display = "none";
+          button.textContent = "Show Details";
+        }
+      }
+
+      // Form Validation
+      function validateForm(event) {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+        if (!name || !email || !message) {
+          event.preventDefault();
+          alert("All fields are required.");
+        }
+      }
+
+      // Geolocation API
+      function displayLocation() {
+        const locationMessage = document.getElementById("location-message");
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude.toFixed(4);
+              const lon = position.coords.longitude.toFixed(4);
+              locationMessage.textContent = `Your location: Latitude ${lat}, Longitude ${lon}`;
+            },
+            (error) => {
+              locationMessage.textContent =
+                "Location access denied. Please enable location permissions or enter your location manually.";
+            }
+          );
+        } else {
+          locationMessage.textContent =
+            "Geolocation is not supported by this browser.";
+        }
+      }
+
+      // Run displayLocation on page load
+      window.onload = displayLocation;
+    </script>
   </body>
 </html>
