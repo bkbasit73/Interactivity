@@ -3,69 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="styles.css" />
-    <!-- Link to your CSS file -->
+    <title>Interactive Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <h1>Welcome to My Portfolio</h1>
+      <h1>My Interactive Portfolio</h1>
+      <p>Welcome! Explore my projects and recent updates below.</p>
+      <div id="location-info">Fetching your location...</div>
     </header>
 
-    <main>
-      <!-- Project Gallery Section -->
-      <section class="projects">
-        <h2>My Projects</h2>
-
-        <div class="project-gallery">
-          <div class="project">
-            <h3>Project 1</h3>
-            <button class="toggle-btn">Show Details</button>
-            <div class="project-details">
-              <p>Details about project 1.</p>
-            </div>
-          </div>
-          <div class="project">
-            <h3>Project 2</h3>
-            <button class="toggle-btn">Show Details</button>
-            <div class="project-details">
-              <p>Details about project 2.</p>
-            </div>
-          </div>
-          <div class="project">
-            <h3>Project 3</h3>
-            <button class="toggle-btn">Show Details</button>
-            <div class="project-details">
-              <p>Details about project 3.</p>
-            </div>
-          </div>
+    <!-- Project Gallery Section -->
+    <section class="project-gallery">
+      <h2>My Projects</h2>
+      <div class="project">
+        <h3>Project 1</h3>
+        <button class="toggle-btn">Show Details</button>
+        <div class="project-details">
+          <p>This project focuses on ...</p>
         </div>
-      </section>
+      </div>
+      <div class="project">
+        <h3>Project 2</h3>
+        <button class="toggle-btn">Show Details</button>
+        <div class="project-details">
+          <p>This project explores ...</p>
+        </div>
+      </div>
+    </section>
 
-      <!-- Contact Form Section -->
-      <section class="contact">
-        <h2>Contact Me</h2>
-        <form id="contact-form">
-          <label for="name">Name:</label>
-          <input type="text" id="name" required />
+    <!-- Contact Form Section -->
+    <section class="contact">
+      <h2>Contact Me</h2>
+      <form id="contact-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required />
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+        <label for="message">Message:</label>
+        <textarea id="message" required></textarea>
+        <button type="submit">Submit</button>
+        <p id="form-error" class="error-message"></p>
+      </form>
+    </section>
 
-          <label for="email">Email:</label>
-          <input type="email" id="email" required />
+    <!-- Optional Canvas Animation Section -->
+    <section>
+      <h2>Animated Canvas</h2>
+      <canvas id="myCanvas"></canvas>
+    </section>
 
-          <label for="message">Message:</label>
-          <textarea id="message" required></textarea>
-
-          <button type="submit">Submit</button>
-        </form>
-        <p id="error-message"></p>
-      </section>
-    </main>
-
-    <footer>
-      <p>© 2024 Your Name</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <!-- Link to your JavaScript file -->
+    <script src="script.js" defer></script>
   </body>
 </html>

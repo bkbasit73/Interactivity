@@ -1,39 +1,69 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Project gallery toggle functionality
-    const buttons = document.querySelectorAll('.toggle-btn');
+document.addEventListener("DOMContentLoaded", function() {
+    // Geolocation API for displaying user location
+    const locationInfo = document.getElementById("location-info");
 
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const details = button.nextElementSibling;
-            if (details.style.display === 'none') {
-                details.style.display = 'block';
-                button.textContent = 'Hide Details';
-            } else {
-                details.style.display = 'none';
-                button.textContent = 'Show Details';
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                locationInfo.innerHTML = `Your location: Latitude ${latitude.toFixed(2)}, Longitude ${longitude.toFixed(2)}`;
+            },
+            () => {
+                locationInfo.innerHTML = "Location access denied.";
             }
+        );
+    } else {
+        locationInfo.innerHTML = "Geolocation is not supported by your browser.";
+    }
+
+    // Project Gallery Toggle
+    const toggleButtons = document.querySelectorAll(".toggle-btn");
+
+    toggleButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const details = button.nextElementSibling;
+            details.style.display = details.style.display === "none" || details.style.display === "" ? "block" : "none";
+            button.textContent = details.style.display === "block" ? "Hide Details" : "Show Details";
         });
     });
 
-    // Contact form validation
-    const form = document.getElementById('contact-form');
-    const errorMessage = document.getElementById('error-message');
+    // Contact Form Validation
+    const contactForm = document.getElementById("contact-form");
+    const formError = document.getElementById("form-error");
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent form submission
-
-        // Validate fields
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+    contactForm.addEventListener("submit", function(event) {
+        formError.style.display = "none";
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
         if (!name || !email || !message) {
-            errorMessage.textContent = "All fields must be filled!";
-        } else {
-            // You could add more validation for email format here
-            errorMessage.textContent = "";
-            // Submit the form or process the data here
-            console.log('Form submitted');
+            event.preventDefault();
+            formError.textContent = "All fields are required!";
+            formError.style.display = "block";
         }
     });
+
+    // Canvas Animation
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = canvas.clientWidth;
+    canvas.height = 200;
+
+    let xPos = 0;
+
+    function drawAnimation() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0984e3";
+        ctx.beginPath();
+        ctx.arc(xPos, 100, 30, 0, Math.PI * 2);
+        ctx.fill();
+
+        xPos += 2;
+        if (xPos > canvas.width) xPos = 0;
+
+        requestAnimationFrame(drawAnimation);
+    }
+    drawAnimation();
 });
